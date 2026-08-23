@@ -1,0 +1,16 @@
+version: 1
+
+name: my-api
+
+app:
+  command: python tests/fixtures/app.py
+  port: 8000
+
+localstack:
+  services:
+    - s3
+    - sqs
+
+scripts:
+  dev: python tests/fixtures/app.py
+  test: pytest
