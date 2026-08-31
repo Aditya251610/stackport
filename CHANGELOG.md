@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/Aditya251610/stackport/compare/v0.2.0...v0.2.1) (2026-08-31)
+
+
+### Bug Fixes
+
+* correct release-please output key, add debug step ([25399db](https://github.com/Aditya251610/stackport/commit/25399dbf3de6548a1ea7ad16b7c9e291ad132102))
+
 ## [0.2.0](https://github.com/Aditya251610/stackport/compare/v0.1.0...v0.2.0) (2026-08-31)
 
 
