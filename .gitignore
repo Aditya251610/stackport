@@ -23,6 +23,10 @@ htmlcov/
 .vscode/
 .idea/
 
+# Claude Code
+CLAUDE.md
+.claude/
+
 # OS
 .DS_Store
 
@@ -34,6 +38,9 @@ htmlcov/
 # StackPort
 .stackport/
 *.log
+
+# Supabase CLI local cache
+supabase/.temp/
 
 # Build
 dist/

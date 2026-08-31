@@ -2,6 +2,7 @@ services:
   tunnel-server:
     image: ${IMAGE}
     restart: unless-stopped
+    env_file: .env
     expose:
       - "8765"
 

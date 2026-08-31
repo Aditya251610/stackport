@@ -36,7 +36,12 @@ jobs:
 
       - name: Sync compose files to VM
         run: |
-          gcloud compute scp docker-compose.yml Caddyfile \
+          gcloud compute ssh "${{ vars.VM_NAME }}" \
+            --zone="${{ vars.VM_ZONE }}" \
+            --project="${{ vars.GCP_PROJECT_ID }}" \
+            --tunnel-through-iap \
+            --command="mkdir -p ~/stackport"
+          gcloud compute scp docker-compose.yml Caddyfile deploy/remote-deploy.sh \
             "${{ vars.VM_NAME }}:~/stackport/" \
             --zone="${{ vars.VM_ZONE }}" \
             --project="${{ vars.GCP_PROJECT_ID }}" \
@@ -48,7 +53,4 @@ jobs:
             --zone="${{ vars.VM_ZONE }}" \
             --project="${{ vars.GCP_PROJECT_ID }}" \
             --tunnel-through-iap \
-            --command="mkdir -p ~/stackport && cd ~/stackport && \
-              printf 'DOMAIN=%s\nIMAGE=%s\n' '${{ vars.DOMAIN }}' '$IMAGE' > .env && \
-              sudo docker compose pull && \
-              sudo docker compose up -d --remove-orphans"
+            --command="sudo bash ~/stackport/remote-deploy.sh '${{ vars.GCP_PROJECT_ID }}' '${{ vars.DOMAIN }}' '$IMAGE' '${{ vars.AR_REPO }}'"

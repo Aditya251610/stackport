@@ -18,12 +18,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           target-branch: development
 
-      # TEMPORARY: print real output keys so the `if:` below can be
-      # verified against ground truth instead of guessed. Remove once
-      # confirmed working.
-      - name: Debug release-please outputs
-        run: echo '${{ toJSON(steps.release.outputs) }}'
-
       # Fires only when release-please's own release PR was just merged
       # (not on every regular feature-branch merge into development).
       # Opens the PR that promotes the release to main; merging it
