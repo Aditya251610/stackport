@@ -10,7 +10,6 @@ with open(path, "r") as stream:
     except yaml.YAMLError as exc:
         print(exc)
 
-print(config)
 
 def yaml_validator():
     try:
