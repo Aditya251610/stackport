@@ -35,6 +35,9 @@ htmlcov/
 .stackport/
 *.log
 
+# Supabase CLI local cache
+supabase/.temp/
+
 # Build
 dist/
 build/
