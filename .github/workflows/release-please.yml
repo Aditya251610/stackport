@@ -2,7 +2,7 @@ name: release-please
 
 on:
   push:
-    branches: [main]
+    branches: [development]
 
 permissions:
   contents: write
@@ -12,6 +12,25 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - uses: googleapis/release-please-action@v4
+      - id: release
+        uses: googleapis/release-please-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          target-branch: development
+
+      # Fires only when release-please's own release PR was just merged
+      # (not on every regular feature-branch merge into development).
+      # Opens the PR that promotes the release to main; merging it
+      # triggers deploy-production.yml.
+      - name: Open promotion PR to main
+        if: ${{ steps.release.outputs['.--release_created'] }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            --repo "${{ github.repository }}" \
+            --base main \
+            --head development \
+            --title "chore: release ${{ steps.release.outputs['.--tag_name'] }} to production" \
+            --body "Promotes the release cut on \`development\` (tag \`${{ steps.release.outputs['.--tag_name'] }}\`) to \`main\`. Merging this deploys to production." \
+          || echo "promotion PR already exists"
