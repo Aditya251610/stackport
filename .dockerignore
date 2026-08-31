@@ -1,0 +1,9 @@
+.venv
+.git
+.stackport
+tests
+*.md
+__pycache__
+*.pyc
+.mypy_cache
+.ruff_cache

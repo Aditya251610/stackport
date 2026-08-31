@@ -2,7 +2,7 @@ name: release-please
 
 on:
   push:
-    branches: [main]
+    branches: [development]
 
 permissions:
   contents: write
@@ -12,6 +12,31 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - uses: googleapis/release-please-action@v4
+      - id: release
+        uses: googleapis/release-please-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          target-branch: development
+
+      # TEMPORARY: print real output keys so the `if:` below can be
+      # verified against ground truth instead of guessed. Remove once
+      # confirmed working.
+      - name: Debug release-please outputs
+        run: echo '${{ toJSON(steps.release.outputs) }}'
+
+      # Fires only when release-please's own release PR was just merged
+      # (not on every regular feature-branch merge into development).
+      # Opens the PR that promotes the release to main; merging it
+      # triggers deploy-production.yml.
+      - name: Open promotion PR to main
+        if: ${{ steps.release.outputs.releases_created == 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            --repo "${{ github.repository }}" \
+            --base main \
+            --head development \
+            --title "chore: promote development to main" \
+            --body "Promotes the latest release cut on \`development\` to \`main\`. Merging this deploys to production. See CHANGELOG.md for details." \
+          || echo "promotion PR already exists"
