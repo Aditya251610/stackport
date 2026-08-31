@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/Aditya251610/stackport/compare/v0.2.1...v0.3.0) (2026-08-31)
+
+
+### Features
+
+* fetch Supabase secrets from Secret Manager on deploy ([2d1703e](https://github.com/Aditya251610/stackport/commit/2d1703ee8ede90ec2abb31fae22c28eb13eb43c8))
+
 ## [0.2.1](https://github.com/Aditya251610/stackport/compare/v0.2.0...v0.2.1) (2026-08-31)
 
 
